@@ -1,55 +1,28 @@
 "use client";
 
-import dynamic from "next/dynamic";
+// We can now use normal imports because this entire component is client-only.
 import { useState, useMemo } from "react";
-import busesData from "../../data/buses.json";
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-// Dynamically import leaflet to ensure it's client-side only
-const L = require("leaflet");
-
-// Dynamic imports for react-leaflet components to avoid SSR issues
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.TileLayer),
-  { ssr: false }
-);
-const Marker = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false }
-);
-const Popup = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Popup),
-  { ssr: false }
-);
-const Polyline = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Polyline),
-  { ssr: false }
-);
+import busesData from "../../data/buses.json";
 
 export default function BusMap() {
   const busLines = busesData.bus_lines;
   const [selectedBusId, setSelectedBusId] = useState(busLines[0]?.id || null);
 
-  // Create icon instances only on the client-side using useMemo
-  const busIcon = useMemo(() => {
-    return new L.Icon({
-      iconUrl: "https://cdn-icons-png.flaticon.com/512/741/741411.png",
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-    });
-  }, []);
+  // It's still best practice to create these icons inside the component.
+  const busIcon = useMemo(() => new L.Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/741/741411.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+  }), []);
 
-  const stopIcon = useMemo(() => {
-    return new L.Icon({
-      iconUrl: "https://cdn-icons-png.flaticon.com/512/3448/3448339.png",
-      iconSize: [20, 20],
-      iconAnchor: [10, 20],
-    });
-  }, []);
+  const stopIcon = useMemo(() => new L.Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/3448/3448339.png",
+    iconSize: [20, 20],
+    iconAnchor: [10, 20],
+  }), []);
 
   const selectedBus = busLines.find((bus) => bus.id === selectedBusId);
 
@@ -81,8 +54,7 @@ export default function BusMap() {
               padding: "8px 12px",
               borderRadius: "8px",
               border: "1px solid #ccc",
-              backgroundColor:
-                selectedBusId === bus.id ? "#0070f3" : "#f5f5f5",
+              backgroundColor: selectedBusId === bus.id ? "#0070f3" : "#f5f5f5",
               color: selectedBusId === bus.id ? "#fff" : "#000",
               cursor: "pointer",
             }}
@@ -95,7 +67,7 @@ export default function BusMap() {
       {/* The Map */}
       <div style={{ height: "500px", width: "100%", marginTop: "20px" }}>
         <MapContainer
-          center={[3.139, 101.6869]} // Kuala Lumpur center
+          center={[3.139, 101.6869]}
           zoom={12}
           style={{ height: "100%", width: "100%" }}
         >
@@ -103,10 +75,8 @@ export default function BusMap() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-
           {selectedBus && (
             <>
-              {/* Bus Marker */}
               <Marker
                 position={[
                   selectedBus.current_location.latitude,
@@ -115,14 +85,7 @@ export default function BusMap() {
                 icon={busIcon}
               >
                 <Popup>
-                  <div
-                    style={{
-                      padding: "10px",
-                      borderRadius: "8px",
-                      minWidth: "200px",
-                      textAlign: "left",
-                    }}
-                  >
+                  <div style={{ minWidth: "200px", textAlign: "left" }}>
                     <h4>{selectedBus.name}</h4>
                     <p><b>Status:</b> {selectedBus.status}</p>
                     <p><b>Capacity:</b> {selectedBus.passengers.utilization_percentage}%</p>
@@ -133,8 +96,6 @@ export default function BusMap() {
                   </div>
                 </Popup>
               </Marker>
-
-              {/* Bus Stop Markers */}
               {selectedBus.bus_stops.map((stop) => (
                 <Marker
                   key={stop.id}
@@ -142,27 +103,15 @@ export default function BusMap() {
                   icon={stopIcon}
                 >
                   <Popup>
-                     <div
-                        style={{
-                          padding: "8px",
-                          borderRadius: "6px",
-                          minWidth: "180px",
-                          textAlign: "left",
-                        }}
-                      >
-                        <h4>{stop.name}</h4>
-                        <p><b>Next Bus Arrival:</b> {stop.estimated_arrival}</p>
-                      </div>
+                    <div style={{ minWidth: "180px", textAlign: "left" }}>
+                      <h4>{stop.name}</h4>
+                      <p><b>Next Bus Arrival:</b> {stop.estimated_arrival}</p>
+                    </div>
                   </Popup>
                 </Marker>
               ))}
-
-              {/* Route Polyline */}
               <Polyline
-                positions={selectedBus.bus_stops.map((s) => [
-                  s.latitude,
-                  s.longitude,
-                ])}
+                positions={selectedBus.bus_stops.map((s) => [s.latitude, s.longitude])}
                 color="blue"
               />
             </>
