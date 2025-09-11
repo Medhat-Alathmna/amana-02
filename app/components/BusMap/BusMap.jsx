@@ -34,13 +34,13 @@ export default function BusMap() {
   const [selectedBusId, setSelectedBusId] = useState(busLines[0]?.id || null);
 
   const busIcon = new L.Icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/61/61212.png",
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/741/741411.png",
     iconSize: [32, 32],
     iconAnchor: [16, 32],
   });
 
   const stopIcon = new L.Icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854894.png",
+    iconUrl: "	https://cdn-icons-png.flaticon.com/512/3448/3448339.png",
     iconSize: [20, 20],
     iconAnchor: [10, 20],
   });
@@ -48,7 +48,12 @@ export default function BusMap() {
   const selectedBus = busLines.find((bus) => bus.id === selectedBusId);
 
   return (
-    <div style={{ width: "100%" }}>
+    <div  style={{
+    width: "100%",
+    maxWidth: "1200px",   // عرض أقصى
+    margin: "0 auto",     // margin يمين ويسار أوتوماتيك
+    padding: "0 16px",    // padding داخلي
+  }}>
       {/* أزرار لاختيار الباص */}
       <div
         style={{
@@ -88,8 +93,8 @@ export default function BusMap() {
             style={{ height: "100%", width: "100%" }}
           >
             <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
             />
 
             {selectedBus && (

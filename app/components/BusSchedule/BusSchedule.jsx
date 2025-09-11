@@ -11,7 +11,12 @@ export default function BusSchedule() {
   const selectedBus = busLines.find((bus) => bus.id === selectedBusId);
 
   return (
-    <div className="bus-schedule-container">
+    <div  style={{
+    width: "100%",
+    maxWidth: "1200px",   // عرض أقصى
+    margin: "0 auto",     // margin يمين ويسار أوتوماتيك
+    padding: "0 16px",    // padding داخلي
+  }} className="bus-schedule-container">
       {/* Bus buttons inside BusSchedule */}
       <div className="bus-buttons">
         {busLines.map((bus) => (
