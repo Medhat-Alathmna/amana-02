@@ -17,12 +17,12 @@ export default function Home() {
 
       {/* خريطة الباص */}
       <SectionTitle title="Active Bus Map" />
-      <BusSelector />
+      {/* <BusSelector /> */}
       <BusMap />
 
       {/* جدول مواعيد الباص */}
       <SectionTitle title="Bus Schedule" />
-      <BusSelector />
+      {/* <BusSelector /> */}
       <BusSchedule />
 
       {/* الفوتر */}
