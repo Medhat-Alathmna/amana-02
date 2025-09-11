@@ -40,35 +40,26 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
+.gitattributes
 .gitignore
-amana-2/.git/COMMIT_EDITMSG
-amana-2/.git/config
-amana-2/.git/description
-amana-2/.git/FETCH_HEAD
-amana-2/.git/HEAD
-amana-2/.git/hooks/applypatch-msg.sample
-amana-2/.git/hooks/commit-msg.sample
-amana-2/.git/hooks/fsmonitor-watchman.sample
-amana-2/.git/hooks/post-update.sample
-amana-2/.git/hooks/pre-applypatch.sample
-amana-2/.git/hooks/pre-commit.sample
-amana-2/.git/hooks/pre-merge-commit.sample
-amana-2/.git/hooks/pre-push.sample
-amana-2/.git/hooks/pre-rebase.sample
-amana-2/.git/hooks/pre-receive.sample
-amana-2/.git/hooks/prepare-commit-msg.sample
-amana-2/.git/hooks/push-to-checkout.sample
-amana-2/.git/hooks/sendemail-validate.sample
-amana-2/.git/hooks/update.sample
-amana-2/.git/info/exclude
-amana-2/.git/logs/HEAD
-amana-2/.git/logs/refs/heads/main
-amana-2/.git/logs/refs/remotes/origin/HEAD
-amana-2/.git/logs/refs/remotes/origin/main
-amana-2/.git/refs/heads/main
-amana-2/.git/refs/remotes/origin/HEAD
-amana-2/.git/refs/remotes/origin/main
-amana-2/.gitattributes
+app/components/BusMap/BusMap.css
+app/components/BusMap/BusMap.jsx
+app/components/BusSchedule/BusSchedule.css
+app/components/BusSchedule/BusSchedule.jsx
+app/components/BusSelector/BusSelector.css
+app/components/BusSelector/BusSelector.jsx
+app/components/Footer/Footer.css
+app/components/Footer/Footer.jsx
+app/components/HeaderSection/HeaderSection.css
+app/components/HeaderSection/HeaderSection.jsx
+app/components/Navbar/Navbar.css
+app/components/Navbar/Navbar.jsx
+app/components/SectionTitle/SectionTitle.css
+app/components/SectionTitle/SectionTitle.jsx
+app/data/buses.json
+app/globals.css
+app/layout.tsx
+app/page.tsx
 eslint.config.mjs
 next.config.ts
 package.json
@@ -79,28 +70,16 @@ public/next.svg
 public/vercel.svg
 public/window.svg
 README.md
-src/components/BusMap/BusMap.css
-src/components/BusMap/BusMap.jsx
-src/components/BusSchedule/BusSchedule.css
-src/components/BusSchedule/BusSchedule.jsx
-src/components/BusSelector/BusSelector.css
-src/components/BusSelector/BusSelector.jsx
-src/components/Footer/Footer.css
-src/components/Footer/Footer.jsx
-src/components/HeaderSection/HeaderSection.css
-src/components/HeaderSection/HeaderSection.jsx
-src/components/Navbar/Navbar.css
-src/components/Navbar/Navbar.jsx
-src/components/SectionTitle/SectionTitle.css
-src/components/SectionTitle/SectionTitle.jsx
-src/globals.css
-src/layout.tsx
-src/page.tsx
 tsconfig.json
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path=".gitattributes">
+# Auto detect text files and perform LF normalization
+* text=auto
+</file>
 
 <file path=".gitignore">
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -146,990 +125,714 @@ yarn-error.log*
 next-env.d.ts
 </file>
 
-<file path="amana-2/.git/COMMIT_EDITMSG">
-Initial commit
-</file>
+<file path="app/components/BusMap/BusMap.css">
+.bus-map {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
 
-<file path="amana-2/.git/config">
-[core]
-	repositoryformatversion = 0
-	filemode = false
-	bare = false
-	logallrefupdates = true
-	symlinks = false
-	ignorecase = true
-[lfs]
-	repositoryformatversion = 0
-[remote "origin"]
-	url = https://github.com/Medhat-Alathmna/amana-2.git
-	fetch = +refs/heads/*:refs/remotes/origin/*
-[branch "main"]
-	remote = origin
-	merge = refs/heads/main
-</file>
-
-<file path="amana-2/.git/description">
-Unnamed repository; edit this file 'description' to name the repository.
-</file>
-
-<file path="amana-2/.git/FETCH_HEAD">
-4e9998af7e6dad7623f0460dd627b566448c3e4b		branch 'main' of https://github.com/Medhat-Alathmna/amana-2
-</file>
-
-<file path="amana-2/.git/HEAD">
-ref: refs/heads/main
-</file>
-
-<file path="amana-2/.git/hooks/applypatch-msg.sample">
-#!/bin/sh
-#
-# An example hook script to check the commit log message taken by
-# applypatch from an e-mail message.
-#
-# The hook should exit with non-zero status after issuing an
-# appropriate message if it wants to stop the commit.  The hook is
-# allowed to edit the commit message file.
-#
-# To enable this hook, rename this file to "applypatch-msg".
-
-. git-sh-setup
-commitmsg="$(git rev-parse --git-path hooks/commit-msg)"
-test -x "$commitmsg" && exec "$commitmsg" ${1+"$@"}
-:
-</file>
-
-<file path="amana-2/.git/hooks/commit-msg.sample">
-#!/bin/sh
-#
-# An example hook script to check the commit log message.
-# Called by "git commit" with one argument, the name of the file
-# that has the commit message.  The hook should exit with non-zero
-# status after issuing an appropriate message if it wants to stop the
-# commit.  The hook is allowed to edit the commit message file.
-#
-# To enable this hook, rename this file to "commit-msg".
-
-# Uncomment the below to add a Signed-off-by line to the message.
-# Doing this in a hook is a bad idea in general, but the prepare-commit-msg
-# hook is more suited to it.
-#
-# SOB=$(git var GIT_AUTHOR_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
-# grep -qs "^$SOB" "$1" || echo "$SOB" >> "$1"
-
-# This example catches duplicate Signed-off-by lines.
-
-test "" = "$(grep '^Signed-off-by: ' "$1" |
-	 sort | uniq -c | sed -e '/^[ 	]*1[ 	]/d')" || {
-	echo >&2 Duplicate Signed-off-by lines.
-	exit 1
+.bus-map img {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 </file>
 
-<file path="amana-2/.git/hooks/fsmonitor-watchman.sample">
-#!/usr/bin/perl
-
-use strict;
-use warnings;
-use IPC::Open2;
-
-# An example hook script to integrate Watchman
-# (https://facebook.github.io/watchman/) with git to speed up detecting
-# new and modified files.
-#
-# The hook is passed a version (currently 2) and last update token
-# formatted as a string and outputs to stdout a new update token and
-# all files that have been modified since the update token. Paths must
-# be relative to the root of the working tree and separated by a single NUL.
-#
-# To enable this hook, rename this file to "query-watchman" and set
-# 'git config core.fsmonitor .git/hooks/query-watchman'
-#
-my ($version, $last_update_token) = @ARGV;
-
-# Uncomment for debugging
-# print STDERR "$0 $version $last_update_token\n";
-
-# Check the hook interface version
-if ($version ne 2) {
-	die "Unsupported query-fsmonitor hook version '$version'.\n" .
-	    "Falling back to scanning...\n";
+<file path="app/components/BusSelector/BusSelector.css">
+.bus-selector {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0;
 }
 
-my $git_work_tree = get_working_dir();
+.bus-selector button {
+  background: #999;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
 
-my $retry = 1;
+.bus-selector button.active {
+  background: #4caf50;
+}
+</file>
 
-my $json_pkg;
-eval {
-	require JSON::XS;
-	$json_pkg = "JSON::XS";
-	1;
-} or do {
-	require JSON::PP;
-	$json_pkg = "JSON::PP";
+<file path="app/components/BusSelector/BusSelector.jsx">
+import "./BusSelector.css";
+
+function BusSelector() {
+  return (
+    <div className="bus-selector">
+      <button className="active">Bus 1</button>
+      <button>Bus 2</button>
+      <button>Bus 3</button>
+      <button>Bus 4</button>
+    </div>
+  );
+}
+
+export default BusSelector;
+</file>
+
+<file path="app/components/Footer/Footer.css">
+.footer {
+  background: #999;
+  text-align: center;
+  padding: 15px;
+  color: black;
+  margin-top: 20px;
+}
+</file>
+
+<file path="app/components/Footer/Footer.jsx">
+import "./Footer.css";
+
+function Footer() {
+  return (
+    <footer className="footer">
+      Footer
+    </footer>
+  );
+}
+
+export default Footer;
+</file>
+
+<file path="app/components/HeaderSection/HeaderSection.css">
+.header-section {
+  background: #4caf50;
+  color: black;
+  text-align: center;
+  padding: 20px;
+}
+
+.header-section h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header-section p {
+  margin-top: 5px;
+  font-size: 14px;
+}
+</file>
+
+<file path="app/components/Navbar/Navbar.css">
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c2c2c;
+  color: white;
+  padding: 10px 20px;
+}
+
+.logo, .menu {
+  background: #444;
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+</file>
+
+<file path="app/components/Navbar/Navbar.jsx">
+import "./Navbar.css";
+
+function Navbar() {
+  return (
+    <nav className="navbar">
+      <div className="logo">Amana Logo</div>
+      <div className="menu">Menu</div>
+    </nav>
+  );
+}
+
+export default Navbar;
+</file>
+
+<file path="app/components/SectionTitle/SectionTitle.css">
+.section-title {
+  background: #ffe4b5;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+</file>
+
+<file path="app/data/buses.json">
+{
+    "message": "Amana Transportation bus data retrieved successfully",
+    "company_info": {
+        "name": "Amana Transportation",
+        "founded": "2019",
+        "headquarters": "Kuala Lumpur, Malaysia",
+        "industry": "Public Transportation",
+        "description": "Modern public bus service connecting key areas in Kuala Lumpur and surrounding regions, focused on reliability and passenger comfort."
+    },
+    "bus_lines": [
+        {
+            "id": 1,
+            "name": "KLCC - Petaling Jaya Express",
+            "route_number": "B101",
+            "current_location": {
+                "latitude": 3.158,
+                "longitude": 101.711,
+                "address": "Jalan Ampang, near KLCC Twin Towers, Kuala Lumpur"
+            },
+            "status": "Active",
+            "passengers": {
+                "current": 32,
+                "capacity": 45,
+                "utilization_percentage": 71
+            },
+            "driver": {
+                "name": "Ahmad Rahman",
+                "id": "DRV001",
+                "shift_start": "06:00",
+                "shift_end": "18:00"
+            },
+            "bus_stops": [
+                {
+                    "id": 1,
+                    "name": "KLCC Station",
+                    "latitude": 3.1578,
+                    "longitude": 101.7114,
+                    "estimated_arrival": "14:20",
+                    "is_next_stop": true
+                },
+                {
+                    "id": 2,
+                    "name": "Pavilion KL",
+                    "latitude": 3.149,
+                    "longitude": 101.7101,
+                    "estimated_arrival": "14:28",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 3,
+                    "name": "Mid Valley Megamall",
+                    "latitude": 3.1177,
+                    "longitude": 101.6774,
+                    "estimated_arrival": "14:42",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 4,
+                    "name": "KL Sentral",
+                    "latitude": 3.1338,
+                    "longitude": 101.6869,
+                    "estimated_arrival": "14:50",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 5,
+                    "name": "Universiti Malaya",
+                    "latitude": 3.1204,
+                    "longitude": 101.6535,
+                    "estimated_arrival": "15:05",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 6,
+                    "name": "Petaling Jaya SS2",
+                    "latitude": 3.1147,
+                    "longitude": 101.624,
+                    "estimated_arrival": "15:18",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 7,
+                    "name": "1 Utama Shopping Centre",
+                    "latitude": 3.1502,
+                    "longitude": 101.6154,
+                    "estimated_arrival": "15:35",
+                    "is_next_stop": false
+                }
+            ],
+            "incidents": [],
+            "vehicle_info": {
+                "license_plate": "WKL 2891",
+                "model": "Scania K230UB",
+                "year": 2019,
+                "fuel_level": 75,
+                "last_maintenance": "2024-12-01"
+            },
+            "route_info": {
+                "total_distance": 28.5,
+                "average_speed": 25,
+                "estimated_completion": "16:00",
+                "frequency_minutes": 20
+            }
+        },
+        {
+            "id": 2,
+            "name": "Old Town - Mont Kiara Connector",
+            "route_number": "B205",
+            "current_location": {
+                "latitude": 3.139,
+                "longitude": 101.6869,
+                "address": "KL Sentral Transportation Hub, Kuala Lumpur"
+            },
+            "status": "Active",
+            "passengers": {
+                "current": 28,
+                "capacity": 40,
+                "utilization_percentage": 70
+            },
+            "driver": {
+                "name": "Siti Aminah",
+                "id": "DRV002",
+                "shift_start": "05:30",
+                "shift_end": "17:30"
+            },
+            "bus_stops": [
+                {
+                    "id": 1,
+                    "name": "KL Sentral",
+                    "latitude": 3.1338,
+                    "longitude": 101.6869,
+                    "estimated_arrival": "14:15",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 2,
+                    "name": "Central Market",
+                    "latitude": 3.1427,
+                    "longitude": 101.6964,
+                    "estimated_arrival": "14:25",
+                    "is_next_stop": true
+                },
+                {
+                    "id": 3,
+                    "name": "Chinatown",
+                    "latitude": 3.1436,
+                    "longitude": 101.6958,
+                    "estimated_arrival": "14:30",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 4,
+                    "name": "Titiwangsa LRT",
+                    "latitude": 3.1729,
+                    "longitude": 101.7016,
+                    "estimated_arrival": "14:45",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 5,
+                    "name": "Mont Kiara",
+                    "latitude": 3.1727,
+                    "longitude": 101.6509,
+                    "estimated_arrival": "15:00",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 6,
+                    "name": "Sri Hartamas",
+                    "latitude": 3.1653,
+                    "longitude": 101.6493,
+                    "estimated_arrival": "15:10",
+                    "is_next_stop": false
+                }
+            ],
+            "incidents": [],
+            "vehicle_info": {
+                "license_plate": "WKL 1547",
+                "model": "Mercedes-Benz Citaro",
+                "year": 2020,
+                "fuel_level": 60,
+                "last_maintenance": "2024-11-28"
+            },
+            "route_info": {
+                "total_distance": 22.3,
+                "average_speed": 22,
+                "estimated_completion": "15:30",
+                "frequency_minutes": 25
+            }
+        },
+        {
+            "id": 3,
+            "name": "Airport - City Circle",
+            "route_number": "B350",
+            "current_location": {
+                "latitude": 2.7456,
+                "longitude": 101.7072,
+                "address": "KLIA Express Station, Sepang, Selangor"
+            },
+            "status": "Active",
+            "passengers": {
+                "current": 15,
+                "capacity": 50,
+                "utilization_percentage": 30
+            },
+            "driver": {
+                "name": "Lim Wei Ming",
+                "id": "DRV003",
+                "shift_start": "04:00",
+                "shift_end": "16:00"
+            },
+            "bus_stops": [
+                {
+                    "id": 1,
+                    "name": "KLIA Terminal 1",
+                    "latitude": 2.7456,
+                    "longitude": 101.7072,
+                    "estimated_arrival": "14:30",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 2,
+                    "name": "KLIA Terminal 2",
+                    "latitude": 2.7389,
+                    "longitude": 101.6997,
+                    "estimated_arrival": "14:40",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 3,
+                    "name": "Putrajaya Central",
+                    "latitude": 2.9264,
+                    "longitude": 101.6964,
+                    "estimated_arrival": "15:10",
+                    "is_next_stop": true
+                },
+                {
+                    "id": 4,
+                    "name": "Cyberjaya",
+                    "latitude": 2.9213,
+                    "longitude": 101.6543,
+                    "estimated_arrival": "15:25",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 5,
+                    "name": "Bandar Tun Razak",
+                    "latitude": 3.0733,
+                    "longitude": 101.7317,
+                    "estimated_arrival": "15:55",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 6,
+                    "name": "KL City Centre",
+                    "latitude": 3.1519,
+                    "longitude": 101.7077,
+                    "estimated_arrival": "16:20",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 7,
+                    "name": "Batu Caves",
+                    "latitude": 3.2379,
+                    "longitude": 101.684,
+                    "estimated_arrival": "16:45",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 8,
+                    "name": "Gombak Terminal",
+                    "latitude": 3.2642,
+                    "longitude": 101.7003,
+                    "estimated_arrival": "17:00",
+                    "is_next_stop": false
+                }
+            ],
+            "incidents": [],
+            "vehicle_info": {
+                "license_plate": "WKL 3429",
+                "model": "Volvo B8RLE",
+                "year": 2018,
+                "fuel_level": 40,
+                "last_maintenance": "2024-12-03"
+            },
+            "route_info": {
+                "total_distance": 85.2,
+                "average_speed": 35,
+                "estimated_completion": "17:30",
+                "frequency_minutes": 45
+            }
+        },
+        {
+            "id": 4,
+            "name": "University Express",
+            "route_number": "B410",
+            "current_location": {
+                "latitude": 3.1204,
+                "longitude": 101.6535,
+                "address": "Universiti Malaya Main Campus, Kuala Lumpur"
+            },
+            "status": "Maintenance",
+            "passengers": {
+                "current": 0,
+                "capacity": 35,
+                "utilization_percentage": 0
+            },
+            "driver": {
+                "name": "Raj Kumar",
+                "id": "DRV004",
+                "shift_start": "06:30",
+                "shift_end": "18:30"
+            },
+            "bus_stops": [
+                {
+                    "id": 1,
+                    "name": "Universiti Malaya",
+                    "latitude": 3.1204,
+                    "longitude": 101.6535,
+                    "estimated_arrival": "N/A",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 2,
+                    "name": "UCSI University",
+                    "latitude": 3.0411,
+                    "longitude": 101.7089,
+                    "estimated_arrival": "N/A",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 3,
+                    "name": "Taylor's University",
+                    "latitude": 3.0653,
+                    "longitude": 101.6075,
+                    "estimated_arrival": "N/A",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 4,
+                    "name": "Sunway University",
+                    "latitude": 3.0653,
+                    "longitude": 101.6037,
+                    "estimated_arrival": "N/A",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 5,
+                    "name": "INTI International University",
+                    "latitude": 3.0534,
+                    "longitude": 101.5934,
+                    "estimated_arrival": "N/A",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 6,
+                    "name": "Monash University Malaysia",
+                    "latitude": 3.0653,
+                    "longitude": 101.6016,
+                    "estimated_arrival": "N/A",
+                    "is_next_stop": false
+                }
+            ],
+            "incidents": [],
+            "vehicle_info": {
+                "license_plate": "WKL 7856",
+                "model": "Isuzu NPR",
+                "year": 2017,
+                "fuel_level": 85,
+                "last_maintenance": "2024-12-05"
+            },
+            "route_info": {
+                "total_distance": 45.8,
+                "average_speed": 20,
+                "estimated_completion": "N/A",
+                "frequency_minutes": 30
+            }
+        },
+        {
+            "id": 5,
+            "name": "Shopping District Shuttle",
+            "route_number": "B520",
+            "current_location": {
+                "latitude": 3.149,
+                "longitude": 101.7101,
+                "address": "Pavilion Kuala Lumpur, Bukit Bintang"
+            },
+            "status": "Active",
+            "passengers": {
+                "current": 42,
+                "capacity": 45,
+                "utilization_percentage": 93
+            },
+            "driver": {
+                "name": "Fatimah Zahra",
+                "id": "DRV005",
+                "shift_start": "07:00",
+                "shift_end": "19:00"
+            },
+            "bus_stops": [
+                {
+                    "id": 1,
+                    "name": "Pavilion KL",
+                    "latitude": 3.149,
+                    "longitude": 101.7101,
+                    "estimated_arrival": "14:22",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 2,
+                    "name": "Lot 10 Shopping Centre",
+                    "latitude": 3.1479,
+                    "longitude": 101.71,
+                    "estimated_arrival": "14:25",
+                    "is_next_stop": true
+                },
+                {
+                    "id": 3,
+                    "name": "Times Square KL",
+                    "latitude": 3.1427,
+                    "longitude": 101.7105,
+                    "estimated_arrival": "14:32",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 4,
+                    "name": "Suria KLCC",
+                    "latitude": 3.158,
+                    "longitude": 101.7123,
+                    "estimated_arrival": "14:40",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 5,
+                    "name": "Avenue K",
+                    "latitude": 3.1612,
+                    "longitude": 101.7197,
+                    "estimated_arrival": "14:48",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 6,
+                    "name": "Intermark Mall",
+                    "latitude": 3.1606,
+                    "longitude": 101.7209,
+                    "estimated_arrival": "14:52",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 7,
+                    "name": "Ampang Park LRT",
+                    "latitude": 3.1615,
+                    "longitude": 101.713,
+                    "estimated_arrival": "15:00",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 8,
+                    "name": "Low Yat Plaza",
+                    "latitude": 3.1468,
+                    "longitude": 101.7099,
+                    "estimated_arrival": "15:08",
+                    "is_next_stop": false
+                },
+                {
+                    "id": 9,
+                    "name": "Fahrenheit 88",
+                    "latitude": 3.1472,
+                    "longitude": 101.7097,
+                    "estimated_arrival": "15:12",
+                    "is_next_stop": false
+                }
+            ],
+            "incidents": [],
+            "vehicle_info": {
+                "license_plate": "WKL 9123",
+                "model": "BYD K9",
+                "year": 2021,
+                "fuel_level": 95,
+                "last_maintenance": "2024-11-30"
+            },
+            "route_info": {
+                "total_distance": 12.7,
+                "average_speed": 15,
+                "estimated_completion": "15:30",
+                "frequency_minutes": 15
+            }
+        }
+    ],
+    "operational_summary": {
+        "total_buses": 5,
+        "active_buses": 4,
+        "maintenance_buses": 1,
+        "out_of_service_buses": 0,
+        "total_capacity": 215,
+        "current_passengers": 117,
+        "average_utilization": 53
+    },
+    "filters": {
+        "available_statuses": [
+            "Active",
+            "Maintenance",
+            "Out of Service"
+        ],
+        "available_routes": [
+            "B101",
+            "B205",
+            "B350",
+            "B410",
+            "B520"
+        ],
+        "applied": {
+            "status": null,
+            "busId": null,
+            "routeNumber": null
+        }
+    }
+}
+</file>
+
+<file path="app/globals.css">
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f9f9f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</file>
+
+<file path="app/layout.tsx">
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Create Next App",
+  description: "Generated by create next app",
 };
 
-launch_watchman();
-
-sub launch_watchman {
-	my $o = watchman_query();
-	if (is_work_tree_watched($o)) {
-		output_result($o->{clock}, @{$o->{files}});
-	}
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
+      </body>
+    </html>
+  );
 }
-
-sub output_result {
-	my ($clockid, @files) = @_;
-
-	# Uncomment for debugging watchman output
-	# open (my $fh, ">", ".git/watchman-output.out");
-	# binmode $fh, ":utf8";
-	# print $fh "$clockid\n@files\n";
-	# close $fh;
-
-	binmode STDOUT, ":utf8";
-	print $clockid;
-	print "\0";
-	local $, = "\0";
-	print @files;
-}
-
-sub watchman_clock {
-	my $response = qx/watchman clock "$git_work_tree"/;
-	die "Failed to get clock id on '$git_work_tree'.\n" .
-		"Falling back to scanning...\n" if $? != 0;
-
-	return $json_pkg->new->utf8->decode($response);
-}
-
-sub watchman_query {
-	my $pid = open2(\*CHLD_OUT, \*CHLD_IN, 'watchman -j --no-pretty')
-	or die "open2() failed: $!\n" .
-	"Falling back to scanning...\n";
-
-	# In the query expression below we're asking for names of files that
-	# changed since $last_update_token but not from the .git folder.
-	#
-	# To accomplish this, we're using the "since" generator to use the
-	# recency index to select candidate nodes and "fields" to limit the
-	# output to file names only. Then we're using the "expression" term to
-	# further constrain the results.
-	my $last_update_line = "";
-	if (substr($last_update_token, 0, 1) eq "c") {
-		$last_update_token = "\"$last_update_token\"";
-		$last_update_line = qq[\n"since": $last_update_token,];
-	}
-	my $query = <<"	END";
-		["query", "$git_work_tree", {$last_update_line
-			"fields": ["name"],
-			"expression": ["not", ["dirname", ".git"]]
-		}]
-	END
-
-	# Uncomment for debugging the watchman query
-	# open (my $fh, ">", ".git/watchman-query.json");
-	# print $fh $query;
-	# close $fh;
-
-	print CHLD_IN $query;
-	close CHLD_IN;
-	my $response = do {local $/; <CHLD_OUT>};
-
-	# Uncomment for debugging the watch response
-	# open ($fh, ">", ".git/watchman-response.json");
-	# print $fh $response;
-	# close $fh;
-
-	die "Watchman: command returned no output.\n" .
-	"Falling back to scanning...\n" if $response eq "";
-	die "Watchman: command returned invalid output: $response\n" .
-	"Falling back to scanning...\n" unless $response =~ /^\{/;
-
-	return $json_pkg->new->utf8->decode($response);
-}
-
-sub is_work_tree_watched {
-	my ($output) = @_;
-	my $error = $output->{error};
-	if ($retry > 0 and $error and $error =~ m/unable to resolve root .* directory (.*) is not watched/) {
-		$retry--;
-		my $response = qx/watchman watch "$git_work_tree"/;
-		die "Failed to make watchman watch '$git_work_tree'.\n" .
-		    "Falling back to scanning...\n" if $? != 0;
-		$output = $json_pkg->new->utf8->decode($response);
-		$error = $output->{error};
-		die "Watchman: $error.\n" .
-		"Falling back to scanning...\n" if $error;
-
-		# Uncomment for debugging watchman output
-		# open (my $fh, ">", ".git/watchman-output.out");
-		# close $fh;
-
-		# Watchman will always return all files on the first query so
-		# return the fast "everything is dirty" flag to git and do the
-		# Watchman query just to get it over with now so we won't pay
-		# the cost in git to look up each individual file.
-		my $o = watchman_clock();
-		$error = $output->{error};
-
-		die "Watchman: $error.\n" .
-		"Falling back to scanning...\n" if $error;
-
-		output_result($o->{clock}, ("/"));
-		$last_update_token = $o->{clock};
-
-		eval { launch_watchman() };
-		return 0;
-	}
-
-	die "Watchman: $error.\n" .
-	"Falling back to scanning...\n" if $error;
-
-	return 1;
-}
-
-sub get_working_dir {
-	my $working_dir;
-	if ($^O =~ 'msys' || $^O =~ 'cygwin') {
-		$working_dir = Win32::GetCwd();
-		$working_dir =~ tr/\\/\//;
-	} else {
-		require Cwd;
-		$working_dir = Cwd::cwd();
-	}
-
-	return $working_dir;
-}
-</file>
-
-<file path="amana-2/.git/hooks/post-update.sample">
-#!/bin/sh
-#
-# An example hook script to prepare a packed repository for use over
-# dumb transports.
-#
-# To enable this hook, rename this file to "post-update".
-
-exec git update-server-info
-</file>
-
-<file path="amana-2/.git/hooks/pre-applypatch.sample">
-#!/bin/sh
-#
-# An example hook script to verify what is about to be committed
-# by applypatch from an e-mail message.
-#
-# The hook should exit with non-zero status after issuing an
-# appropriate message if it wants to stop the commit.
-#
-# To enable this hook, rename this file to "pre-applypatch".
-
-. git-sh-setup
-precommit="$(git rev-parse --git-path hooks/pre-commit)"
-test -x "$precommit" && exec "$precommit" ${1+"$@"}
-:
-</file>
-
-<file path="amana-2/.git/hooks/pre-commit.sample">
-#!/bin/sh
-#
-# An example hook script to verify what is about to be committed.
-# Called by "git commit" with no arguments.  The hook should
-# exit with non-zero status after issuing an appropriate message if
-# it wants to stop the commit.
-#
-# To enable this hook, rename this file to "pre-commit".
-
-if git rev-parse --verify HEAD >/dev/null 2>&1
-then
-	against=HEAD
-else
-	# Initial commit: diff against an empty tree object
-	against=$(git hash-object -t tree /dev/null)
-fi
-
-# If you want to allow non-ASCII filenames set this variable to true.
-allownonascii=$(git config --type=bool hooks.allownonascii)
-
-# Redirect output to stderr.
-exec 1>&2
-
-# Cross platform projects tend to avoid non-ASCII filenames; prevent
-# them from being added to the repository. We exploit the fact that the
-# printable range starts at the space character and ends with tilde.
-if [ "$allownonascii" != "true" ] &&
-	# Note that the use of brackets around a tr range is ok here, (it's
-	# even required, for portability to Solaris 10's /usr/bin/tr), since
-	# the square bracket bytes happen to fall in the designated range.
-	test $(git diff-index --cached --name-only --diff-filter=A -z $against |
-	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
-then
-	cat <<\EOF
-Error: Attempt to add a non-ASCII file name.
-
-This can cause problems if you want to work with people on other platforms.
-
-To be portable it is advisable to rename the file.
-
-If you know what you are doing you can disable this check using:
-
-  git config hooks.allownonascii true
-EOF
-	exit 1
-fi
-
-# If there are whitespace errors, print the offending file names and fail.
-exec git diff-index --check --cached $against --
-</file>
-
-<file path="amana-2/.git/hooks/pre-merge-commit.sample">
-#!/bin/sh
-#
-# An example hook script to verify what is about to be committed.
-# Called by "git merge" with no arguments.  The hook should
-# exit with non-zero status after issuing an appropriate message to
-# stderr if it wants to stop the merge commit.
-#
-# To enable this hook, rename this file to "pre-merge-commit".
-
-. git-sh-setup
-test -x "$GIT_DIR/hooks/pre-commit" &&
-        exec "$GIT_DIR/hooks/pre-commit"
-:
-</file>
-
-<file path="amana-2/.git/hooks/pre-push.sample">
-#!/bin/sh
-
-# An example hook script to verify what is about to be pushed.  Called by "git
-# push" after it has checked the remote status, but before anything has been
-# pushed.  If this script exits with a non-zero status nothing will be pushed.
-#
-# This hook is called with the following parameters:
-#
-# $1 -- Name of the remote to which the push is being done
-# $2 -- URL to which the push is being done
-#
-# If pushing without using a named remote those arguments will be equal.
-#
-# Information about the commits which are being pushed is supplied as lines to
-# the standard input in the form:
-#
-#   <local ref> <local oid> <remote ref> <remote oid>
-#
-# This sample shows how to prevent push of commits where the log message starts
-# with "WIP" (work in progress).
-
-remote="$1"
-url="$2"
-
-zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
-
-while read local_ref local_oid remote_ref remote_oid
-do
-	if test "$local_oid" = "$zero"
-	then
-		# Handle delete
-		:
-	else
-		if test "$remote_oid" = "$zero"
-		then
-			# New branch, examine all commits
-			range="$local_oid"
-		else
-			# Update to existing branch, examine new commits
-			range="$remote_oid..$local_oid"
-		fi
-
-		# Check for WIP commit
-		commit=$(git rev-list -n 1 --grep '^WIP' "$range")
-		if test -n "$commit"
-		then
-			echo >&2 "Found WIP commit in $local_ref, not pushing"
-			exit 1
-		fi
-	fi
-done
-
-exit 0
-</file>
-
-<file path="amana-2/.git/hooks/pre-rebase.sample">
-#!/bin/sh
-#
-# Copyright (c) 2006, 2008 Junio C Hamano
-#
-# The "pre-rebase" hook is run just before "git rebase" starts doing
-# its job, and can prevent the command from running by exiting with
-# non-zero status.
-#
-# The hook is called with the following parameters:
-#
-# $1 -- the upstream the series was forked from.
-# $2 -- the branch being rebased (or empty when rebasing the current branch).
-#
-# This sample shows how to prevent topic branches that are already
-# merged to 'next' branch from getting rebased, because allowing it
-# would result in rebasing already published history.
-
-publish=next
-basebranch="$1"
-if test "$#" = 2
-then
-	topic="refs/heads/$2"
-else
-	topic=`git symbolic-ref HEAD` ||
-	exit 0 ;# we do not interrupt rebasing detached HEAD
-fi
-
-case "$topic" in
-refs/heads/??/*)
-	;;
-*)
-	exit 0 ;# we do not interrupt others.
-	;;
-esac
-
-# Now we are dealing with a topic branch being rebased
-# on top of master.  Is it OK to rebase it?
-
-# Does the topic really exist?
-git show-ref -q "$topic" || {
-	echo >&2 "No such branch $topic"
-	exit 1
-}
-
-# Is topic fully merged to master?
-not_in_master=`git rev-list --pretty=oneline ^master "$topic"`
-if test -z "$not_in_master"
-then
-	echo >&2 "$topic is fully merged to master; better remove it."
-	exit 1 ;# we could allow it, but there is no point.
-fi
-
-# Is topic ever merged to next?  If so you should not be rebasing it.
-only_next_1=`git rev-list ^master "^$topic" ${publish} | sort`
-only_next_2=`git rev-list ^master           ${publish} | sort`
-if test "$only_next_1" = "$only_next_2"
-then
-	not_in_topic=`git rev-list "^$topic" master`
-	if test -z "$not_in_topic"
-	then
-		echo >&2 "$topic is already up to date with master"
-		exit 1 ;# we could allow it, but there is no point.
-	else
-		exit 0
-	fi
-else
-	not_in_next=`git rev-list --pretty=oneline ^${publish} "$topic"`
-	/usr/bin/perl -e '
-		my $topic = $ARGV[0];
-		my $msg = "* $topic has commits already merged to public branch:\n";
-		my (%not_in_next) = map {
-			/^([0-9a-f]+) /;
-			($1 => 1);
-		} split(/\n/, $ARGV[1]);
-		for my $elem (map {
-				/^([0-9a-f]+) (.*)$/;
-				[$1 => $2];
-			} split(/\n/, $ARGV[2])) {
-			if (!exists $not_in_next{$elem->[0]}) {
-				if ($msg) {
-					print STDERR $msg;
-					undef $msg;
-				}
-				print STDERR " $elem->[1]\n";
-			}
-		}
-	' "$topic" "$not_in_next" "$not_in_master"
-	exit 1
-fi
-
-<<\DOC_END
-
-This sample hook safeguards topic branches that have been
-published from being rewound.
-
-The workflow assumed here is:
-
- * Once a topic branch forks from "master", "master" is never
-   merged into it again (either directly or indirectly).
-
- * Once a topic branch is fully cooked and merged into "master",
-   it is deleted.  If you need to build on top of it to correct
-   earlier mistakes, a new topic branch is created by forking at
-   the tip of the "master".  This is not strictly necessary, but
-   it makes it easier to keep your history simple.
-
- * Whenever you need to test or publish your changes to topic
-   branches, merge them into "next" branch.
-
-The script, being an example, hardcodes the publish branch name
-to be "next", but it is trivial to make it configurable via
-$GIT_DIR/config mechanism.
-
-With this workflow, you would want to know:
-
-(1) ... if a topic branch has ever been merged to "next".  Young
-    topic branches can have stupid mistakes you would rather
-    clean up before publishing, and things that have not been
-    merged into other branches can be easily rebased without
-    affecting other people.  But once it is published, you would
-    not want to rewind it.
-
-(2) ... if a topic branch has been fully merged to "master".
-    Then you can delete it.  More importantly, you should not
-    build on top of it -- other people may already want to
-    change things related to the topic as patches against your
-    "master", so if you need further changes, it is better to
-    fork the topic (perhaps with the same name) afresh from the
-    tip of "master".
-
-Let's look at this example:
-
-		   o---o---o---o---o---o---o---o---o---o "next"
-		  /       /           /           /
-		 /   a---a---b A     /           /
-		/   /               /           /
-	       /   /   c---c---c---c B         /
-	      /   /   /             \         /
-	     /   /   /   b---b C     \       /
-	    /   /   /   /             \     /
-    ---o---o---o---o---o---o---o---o---o---o---o "master"
-
-
-A, B and C are topic branches.
-
- * A has one fix since it was merged up to "next".
-
- * B has finished.  It has been fully merged up to "master" and "next",
-   and is ready to be deleted.
-
- * C has not merged to "next" at all.
-
-We would want to allow C to be rebased, refuse A, and encourage
-B to be deleted.
-
-To compute (1):
-
-	git rev-list ^master ^topic next
-	git rev-list ^master        next
-
-	if these match, topic has not merged in next at all.
-
-To compute (2):
-
-	git rev-list master..topic
-
-	if this is empty, it is fully merged to "master".
-
-DOC_END
-</file>
-
-<file path="amana-2/.git/hooks/pre-receive.sample">
-#!/bin/sh
-#
-# An example hook script to make use of push options.
-# The example simply echoes all push options that start with 'echoback='
-# and rejects all pushes when the "reject" push option is used.
-#
-# To enable this hook, rename this file to "pre-receive".
-
-if test -n "$GIT_PUSH_OPTION_COUNT"
-then
-	i=0
-	while test "$i" -lt "$GIT_PUSH_OPTION_COUNT"
-	do
-		eval "value=\$GIT_PUSH_OPTION_$i"
-		case "$value" in
-		echoback=*)
-			echo "echo from the pre-receive-hook: ${value#*=}" >&2
-			;;
-		reject)
-			exit 1
-		esac
-		i=$((i + 1))
-	done
-fi
-</file>
-
-<file path="amana-2/.git/hooks/prepare-commit-msg.sample">
-#!/bin/sh
-#
-# An example hook script to prepare the commit log message.
-# Called by "git commit" with the name of the file that has the
-# commit message, followed by the description of the commit
-# message's source.  The hook's purpose is to edit the commit
-# message file.  If the hook fails with a non-zero status,
-# the commit is aborted.
-#
-# To enable this hook, rename this file to "prepare-commit-msg".
-
-# This hook includes three examples. The first one removes the
-# "# Please enter the commit message..." help message.
-#
-# The second includes the output of "git diff --name-status -r"
-# into the message, just before the "git status" output.  It is
-# commented because it doesn't cope with --amend or with squashed
-# commits.
-#
-# The third example adds a Signed-off-by line to the message, that can
-# still be edited.  This is rarely a good idea.
-
-COMMIT_MSG_FILE=$1
-COMMIT_SOURCE=$2
-SHA1=$3
-
-/usr/bin/perl -i.bak -ne 'print unless(m/^. Please enter the commit message/..m/^#$/)' "$COMMIT_MSG_FILE"
-
-# case "$COMMIT_SOURCE,$SHA1" in
-#  ,|template,)
-#    /usr/bin/perl -i.bak -pe '
-#       print "\n" . `git diff --cached --name-status -r`
-# 	 if /^#/ && $first++ == 0' "$COMMIT_MSG_FILE" ;;
-#  *) ;;
-# esac
-
-# SOB=$(git var GIT_COMMITTER_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
-# git interpret-trailers --in-place --trailer "$SOB" "$COMMIT_MSG_FILE"
-# if test -z "$COMMIT_SOURCE"
-# then
-#   /usr/bin/perl -i.bak -pe 'print "\n" if !$first_line++' "$COMMIT_MSG_FILE"
-# fi
-</file>
-
-<file path="amana-2/.git/hooks/push-to-checkout.sample">
-#!/bin/sh
-
-# An example hook script to update a checked-out tree on a git push.
-#
-# This hook is invoked by git-receive-pack(1) when it reacts to git
-# push and updates reference(s) in its repository, and when the push
-# tries to update the branch that is currently checked out and the
-# receive.denyCurrentBranch configuration variable is set to
-# updateInstead.
-#
-# By default, such a push is refused if the working tree and the index
-# of the remote repository has any difference from the currently
-# checked out commit; when both the working tree and the index match
-# the current commit, they are updated to match the newly pushed tip
-# of the branch. This hook is to be used to override the default
-# behaviour; however the code below reimplements the default behaviour
-# as a starting point for convenient modification.
-#
-# The hook receives the commit with which the tip of the current
-# branch is going to be updated:
-commit=$1
-
-# It can exit with a non-zero status to refuse the push (when it does
-# so, it must not modify the index or the working tree).
-die () {
-	echo >&2 "$*"
-	exit 1
-}
-
-# Or it can make any necessary changes to the working tree and to the
-# index to bring them to the desired state when the tip of the current
-# branch is updated to the new commit, and exit with a zero status.
-#
-# For example, the hook can simply run git read-tree -u -m HEAD "$1"
-# in order to emulate git fetch that is run in the reverse direction
-# with git push, as the two-tree form of git read-tree -u -m is
-# essentially the same as git switch or git checkout that switches
-# branches while keeping the local changes in the working tree that do
-# not interfere with the difference between the branches.
-
-# The below is a more-or-less exact translation to shell of the C code
-# for the default behaviour for git's push-to-checkout hook defined in
-# the push_to_deploy() function in builtin/receive-pack.c.
-#
-# Note that the hook will be executed from the repository directory,
-# not from the working tree, so if you want to perform operations on
-# the working tree, you will have to adapt your code accordingly, e.g.
-# by adding "cd .." or using relative paths.
-
-if ! git update-index -q --ignore-submodules --refresh
-then
-	die "Up-to-date check failed"
-fi
-
-if ! git diff-files --quiet --ignore-submodules --
-then
-	die "Working directory has unstaged changes"
-fi
-
-# This is a rough translation of:
-#
-#   head_has_history() ? "HEAD" : EMPTY_TREE_SHA1_HEX
-if git cat-file -e HEAD 2>/dev/null
-then
-	head=HEAD
-else
-	head=$(git hash-object -t tree --stdin </dev/null)
-fi
-
-if ! git diff-index --quiet --cached --ignore-submodules $head --
-then
-	die "Working directory has staged changes"
-fi
-
-if ! git read-tree -u -m "$commit"
-then
-	die "Could not update working tree to new HEAD"
-fi
-</file>
-
-<file path="amana-2/.git/hooks/sendemail-validate.sample">
-#!/bin/sh
-
-# An example hook script to validate a patch (and/or patch series) before
-# sending it via email.
-#
-# The hook should exit with non-zero status after issuing an appropriate
-# message if it wants to prevent the email(s) from being sent.
-#
-# To enable this hook, rename this file to "sendemail-validate".
-#
-# By default, it will only check that the patch(es) can be applied on top of
-# the default upstream branch without conflicts in a secondary worktree. After
-# validation (successful or not) of the last patch of a series, the worktree
-# will be deleted.
-#
-# The following config variables can be set to change the default remote and
-# remote ref that are used to apply the patches against:
-#
-#   sendemail.validateRemote (default: origin)
-#   sendemail.validateRemoteRef (default: HEAD)
-#
-# Replace the TODO placeholders with appropriate checks according to your
-# needs.
-
-validate_cover_letter () {
-	file="$1"
-	# TODO: Replace with appropriate checks (e.g. spell checking).
-	true
-}
-
-validate_patch () {
-	file="$1"
-	# Ensure that the patch applies without conflicts.
-	git am -3 "$file" || return
-	# TODO: Replace with appropriate checks for this patch
-	# (e.g. checkpatch.pl).
-	true
-}
-
-validate_series () {
-	# TODO: Replace with appropriate checks for the whole series
-	# (e.g. quick build, coding style checks, etc.).
-	true
-}
-
-# main -------------------------------------------------------------------------
-
-if test "$GIT_SENDEMAIL_FILE_COUNTER" = 1
-then
-	remote=$(git config --default origin --get sendemail.validateRemote) &&
-	ref=$(git config --default HEAD --get sendemail.validateRemoteRef) &&
-	worktree=$(mktemp --tmpdir -d sendemail-validate.XXXXXXX) &&
-	git worktree add -fd --checkout "$worktree" "refs/remotes/$remote/$ref" &&
-	git config --replace-all sendemail.validateWorktree "$worktree"
-else
-	worktree=$(git config --get sendemail.validateWorktree)
-fi || {
-	echo "sendemail-validate: error: failed to prepare worktree" >&2
-	exit 1
-}
-
-unset GIT_DIR GIT_WORK_TREE
-cd "$worktree" &&
-
-if grep -q "^diff --git " "$1"
-then
-	validate_patch "$1"
-else
-	validate_cover_letter "$1"
-fi &&
-
-if test "$GIT_SENDEMAIL_FILE_COUNTER" = "$GIT_SENDEMAIL_FILE_TOTAL"
-then
-	git config --unset-all sendemail.validateWorktree &&
-	trap 'git worktree remove -ff "$worktree"' EXIT &&
-	validate_series
-fi
-</file>
-
-<file path="amana-2/.git/hooks/update.sample">
-#!/bin/sh
-#
-# An example hook script to block unannotated tags from entering.
-# Called by "git receive-pack" with arguments: refname sha1-old sha1-new
-#
-# To enable this hook, rename this file to "update".
-#
-# Config
-# ------
-# hooks.allowunannotated
-#   This boolean sets whether unannotated tags will be allowed into the
-#   repository.  By default they won't be.
-# hooks.allowdeletetag
-#   This boolean sets whether deleting tags will be allowed in the
-#   repository.  By default they won't be.
-# hooks.allowmodifytag
-#   This boolean sets whether a tag may be modified after creation. By default
-#   it won't be.
-# hooks.allowdeletebranch
-#   This boolean sets whether deleting branches will be allowed in the
-#   repository.  By default they won't be.
-# hooks.denycreatebranch
-#   This boolean sets whether remotely creating branches will be denied
-#   in the repository.  By default this is allowed.
-#
-
-# --- Command line
-refname="$1"
-oldrev="$2"
-newrev="$3"
-
-# --- Safety check
-if [ -z "$GIT_DIR" ]; then
-	echo "Don't run this script from the command line." >&2
-	echo " (if you want, you could supply GIT_DIR then run" >&2
-	echo "  $0 <ref> <oldrev> <newrev>)" >&2
-	exit 1
-fi
-
-if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
-	echo "usage: $0 <ref> <oldrev> <newrev>" >&2
-	exit 1
-fi
-
-# --- Config
-allowunannotated=$(git config --type=bool hooks.allowunannotated)
-allowdeletebranch=$(git config --type=bool hooks.allowdeletebranch)
-denycreatebranch=$(git config --type=bool hooks.denycreatebranch)
-allowdeletetag=$(git config --type=bool hooks.allowdeletetag)
-allowmodifytag=$(git config --type=bool hooks.allowmodifytag)
-
-# check for no description
-projectdesc=$(sed -e '1q' "$GIT_DIR/description")
-case "$projectdesc" in
-"Unnamed repository"* | "")
-	echo "*** Project description file hasn't been set" >&2
-	exit 1
-	;;
-esac
-
-# --- Check types
-# if $newrev is 0000...0000, it's a commit to delete a ref.
-zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
-if [ "$newrev" = "$zero" ]; then
-	newrev_type=delete
-else
-	newrev_type=$(git cat-file -t $newrev)
-fi
-
-case "$refname","$newrev_type" in
-	refs/tags/*,commit)
-		# un-annotated tag
-		short_refname=${refname##refs/tags/}
-		if [ "$allowunannotated" != "true" ]; then
-			echo "*** The un-annotated tag, $short_refname, is not allowed in this repository" >&2
-			echo "*** Use 'git tag [ -a | -s ]' for tags you want to propagate." >&2
-			exit 1
-		fi
-		;;
-	refs/tags/*,delete)
-		# delete tag
-		if [ "$allowdeletetag" != "true" ]; then
-			echo "*** Deleting a tag is not allowed in this repository" >&2
-			exit 1
-		fi
-		;;
-	refs/tags/*,tag)
-		# annotated tag
-		if [ "$allowmodifytag" != "true" ] && git rev-parse $refname > /dev/null 2>&1
-		then
-			echo "*** Tag '$refname' already exists." >&2
-			echo "*** Modifying a tag is not allowed in this repository." >&2
-			exit 1
-		fi
-		;;
-	refs/heads/*,commit)
-		# branch
-		if [ "$oldrev" = "$zero" -a "$denycreatebranch" = "true" ]; then
-			echo "*** Creating a branch is not allowed in this repository" >&2
-			exit 1
-		fi
-		;;
-	refs/heads/*,delete)
-		# delete branch
-		if [ "$allowdeletebranch" != "true" ]; then
-			echo "*** Deleting a branch is not allowed in this repository" >&2
-			exit 1
-		fi
-		;;
-	refs/remotes/*,commit)
-		# tracking branch
-		;;
-	refs/remotes/*,delete)
-		# delete tracking branch
-		if [ "$allowdeletebranch" != "true" ]; then
-			echo "*** Deleting a tracking branch is not allowed in this repository" >&2
-			exit 1
-		fi
-		;;
-	*)
-		# Anything else (is there anything else?)
-		echo "*** Update hook: unknown type of update to ref $refname of type $newrev_type" >&2
-		exit 1
-		;;
-esac
-
-# --- Finished
-exit 0
-</file>
-
-<file path="amana-2/.git/info/exclude">
-# git ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~
-</file>
-
-<file path="amana-2/.git/logs/HEAD">
-0000000000000000000000000000000000000000 4e9998af7e6dad7623f0460dd627b566448c3e4b Medhat-Alathmna <medhatalathmna@gmail.com> 1757449351 +0300	commit (initial): Initial commit
-</file>
-
-<file path="amana-2/.git/logs/refs/heads/main">
-0000000000000000000000000000000000000000 4e9998af7e6dad7623f0460dd627b566448c3e4b Medhat-Alathmna <medhatalathmna@gmail.com> 1757449351 +0300	commit (initial): Initial commit
-</file>
-
-<file path="amana-2/.git/logs/refs/remotes/origin/HEAD">
-0000000000000000000000000000000000000000 4e9998af7e6dad7623f0460dd627b566448c3e4b medhat alathmna <Medha@Coca-Cola.(none)> 1757449370 +0300	remote set-head
-</file>
-
-<file path="amana-2/.git/logs/refs/remotes/origin/main">
-0000000000000000000000000000000000000000 4e9998af7e6dad7623f0460dd627b566448c3e4b Medhat-Alathmna <medhatalathmna@gmail.com> 1757449365 +0300	update by push
-</file>
-
-<file path="amana-2/.git/refs/heads/main">
-4e9998af7e6dad7623f0460dd627b566448c3e4b
-</file>
-
-<file path="amana-2/.git/refs/remotes/origin/HEAD">
-ref: refs/remotes/origin/main
-</file>
-
-<file path="amana-2/.git/refs/remotes/origin/main">
-4e9998af7e6dad7623f0460dd627b566448c3e4b
-</file>
-
-<file path="amana-2/.gitattributes">
-# Auto detect text files and perform LF normalization
-* text=auto
 </file>
 
 <file path="eslint.config.mjs">
@@ -1168,36 +871,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-</file>
-
-<file path="package.json">
-{
-  "name": "aman-tranportion",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev ",
-    "build": "next build ",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.2"
-  },
-  "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.2",
-    "@eslint/eslintrc": "^3"
-  }
-}
 </file>
 
 <file path="postcss.config.mjs">
@@ -1267,347 +940,6 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 </file>
 
-<file path="src/components/BusMap/BusMap.css">
-.bus-map {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-}
-
-.bus-map img {
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-</file>
-
-<file path="src/components/BusMap/BusMap.jsx">
-import "./BusMap.css";
-
-function BusMap() {
-  return (
-    <div className="bus-map">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/6/6b/OpenStreetMap_Map.png"
-        alt="Bus Map"
-      />
-    </div>
-  );
-}
-
-export default BusMap;
-</file>
-
-<file path="src/components/BusSchedule/BusSchedule.css">
-.bus-schedule {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-}
-
-.bus-schedule table {
-  width: 100%;
-  max-width: 400px;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.bus-schedule th, .bus-schedule td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.bus-schedule .highlight {
-  background: #ffcc66;
-}
-</file>
-
-<file path="src/components/BusSchedule/BusSchedule.jsx">
-import "./BusSchedule.css";
-
-function BusSchedule() {
-  return (
-    <div className="bus-schedule">
-      <table>
-        <thead>
-          <tr>
-            <th>Bus Stop</th>
-            <th>Next Time of Arrival</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="highlight">
-            <td>Amphi Stop</td>
-            <td>14:42</td>
-          </tr>
-          <tr>
-            <td>Palsa Stop</td>
-            <td>15:21</td>
-          </tr>
-          <tr>
-            <td>Tutu Stop</td>
-            <td>16:20</td>
-          </tr>
-          <tr>
-            <td>Acari Stop</td>
-            <td>17:10</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default BusSchedule;
-</file>
-
-<file path="src/components/BusSelector/BusSelector.css">
-.bus-selector {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 15px 0;
-}
-
-.bus-selector button {
-  background: #999;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-}
-
-.bus-selector button.active {
-  background: #4caf50;
-}
-</file>
-
-<file path="src/components/BusSelector/BusSelector.jsx">
-import "./BusSelector.css";
-
-function BusSelector() {
-  return (
-    <div className="bus-selector">
-      <button className="active">Bus 1</button>
-      <button>Bus 2</button>
-      <button>Bus 3</button>
-      <button>Bus 4</button>
-    </div>
-  );
-}
-
-export default BusSelector;
-</file>
-
-<file path="src/components/Footer/Footer.css">
-.footer {
-  background: #999;
-  text-align: center;
-  padding: 15px;
-  color: black;
-  margin-top: 20px;
-}
-</file>
-
-<file path="src/components/Footer/Footer.jsx">
-import "./Footer.css";
-
-function Footer() {
-  return (
-    <footer className="footer">
-      Footer
-    </footer>
-  );
-}
-
-export default Footer;
-</file>
-
-<file path="src/components/HeaderSection/HeaderSection.css">
-.header-section {
-  background: #4caf50;
-  color: black;
-  text-align: center;
-  padding: 20px;
-}
-
-.header-section h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.header-section p {
-  margin-top: 5px;
-  font-size: 14px;
-}
-</file>
-
-<file path="src/components/HeaderSection/HeaderSection.jsx">
-import "./HeaderSection.css";
-
-function HeaderSection() {
-  return (
-    <header className="header-section">
-      <h1>Amana Transportation</h1>
-      <p>Proudly Servicing Malaysian Bus Riders Since 2019!</p>
-    </header>
-  );
-}
-
-export default HeaderSection;
-</file>
-
-<file path="src/components/Navbar/Navbar.css">
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #2c2c2c;
-  color: white;
-  padding: 10px 20px;
-}
-
-.logo, .menu {
-  background: #444;
-  padding: 10px 20px;
-  border-radius: 4px;
-}
-</file>
-
-<file path="src/components/Navbar/Navbar.jsx">
-import "./Navbar.css";
-
-function Navbar() {
-  return (
-    <nav className="navbar">
-      <div className="logo">Amana Logo</div>
-      <div className="menu">Menu</div>
-    </nav>
-  );
-}
-
-export default Navbar;
-</file>
-
-<file path="src/components/SectionTitle/SectionTitle.css">
-.section-title {
-  background: #ffe4b5;
-  text-align: center;
-  padding: 10px;
-  font-weight: bold;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-</file>
-
-<file path="src/components/SectionTitle/SectionTitle.jsx">
-import "./SectionTitle.css";
-
-function SectionTitle({ title }) {
-  return (
-    <div className="section-title">
-      <h2>{title}</h2>
-    </div>
-  );
-}
-
-export default SectionTitle;
-</file>
-
-<file path="src/globals.css">
-.App {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f9f9f9;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-</file>
-
-<file path="src/layout.tsx">
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Create Next App",
-  description: "Generated by create next app",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
-}
-</file>
-
-<file path="src/page.tsx">
-import React from "react";
-import "./App.css";
-
-import Navbar from "./components/Navbar/Navbar";
-import HeaderSection from "./components/HeaderSection/HeaderSection";
-import SectionTitle from "./components/SectionTitle/SectionTitle";
-import BusSelector from "./components/BusSelector/BusSelector";
-import BusMap from "./components/BusMap/BusMap";
-import BusSchedule from "./components/BusSchedule/BusSchedule";
-import Footer from "./components/Footer/Footer";
-
-function App() {
-  return (
-    <div className="App">
-      {/* شريط التنقل */}
-      <Navbar />
-
-      {/* العنوان الرئيسي */}
-      <HeaderSection />
-
-      {/* خريطة الباص */}
-      <SectionTitle title="Active Bus Map" />
-      <BusSelector />
-      <BusMap />
-
-      {/* جدول مواعيد الباص */}
-      <SectionTitle title="Bus Schedule" />
-      <BusSelector />
-      <BusSchedule />
-
-      {/* الفوتر */}
-      <Footer />
-    </div>
-  );
-}
-
-export default App;
-</file>
-
 <file path="tsconfig.json">
 {
   "compilerOptions": {
@@ -1633,8 +965,418 @@ export default App;
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/BusMap/BusMap.jsx"],
   "exclude": ["node_modules"]
+}
+</file>
+
+<file path="app/components/BusSchedule/BusSchedule.css">
+.bus-schedule-container {
+  margin-top: 20px;
+}
+
+.bus-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.bus-buttons button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.bus-buttons button.active {
+  background-color: #0070f3;
+  color: #fff;
+}
+
+.bus-schedule table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bus-schedule th,
+.bus-schedule td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.bus-schedule .highlight {
+  background-color: orange;
+  color: #fff;
+  font-weight: bold;
+}
+</file>
+
+<file path="app/components/HeaderSection/HeaderSection.jsx">
+import "./HeaderSection.css";
+
+function HeaderSection() {
+  return (
+    <header  style={{
+    width: "100%",
+    maxWidth: "1200px",   // عرض أقصى
+    margin: "0 auto",     // margin يمين ويسار أوتوماتيك
+    padding: "0 16px",    // padding داخلي
+  }} className="header-section">
+      <h1>Amana Transportation</h1>
+      <p>Proudly Servicing Malaysian Bus Riders Since 2019!</p>
+    </header>
+  );
+}
+
+export default HeaderSection;
+</file>
+
+<file path="app/components/SectionTitle/SectionTitle.jsx">
+import "./SectionTitle.css";
+
+function SectionTitle({ title }) {
+  return (
+    <div  style={{
+    width: "100%",
+    maxWidth: "1200px",   // عرض أقصى
+    margin: "0 auto",     // margin يمين ويسار أوتوماتيك
+    padding: "0 16px",    // padding داخلي
+  }} className="section-title">
+      <h2>{title}</h2>
+    </div>
+  );
+}
+
+export default SectionTitle;
+</file>
+
+<file path="app/page.tsx">
+import Navbar from "./components/Navbar/Navbar";
+import HeaderSection from "./components/HeaderSection/HeaderSection";
+import SectionTitle from "./components/SectionTitle/SectionTitle";
+import BusSelector from "./components/BusSelector/BusSelector";
+import BusMap from "./components/BusMap/BusMap";
+import BusSchedule from "./components/BusSchedule/BusSchedule";
+import Footer from "./components/Footer/Footer";
+
+export default function Home() {
+  return (
+    <div className="App">
+      {/* شريط التنقل */}
+      <Navbar />
+
+      {/* العنوان الرئيسي */}
+      <HeaderSection />
+
+      {/* خريطة الباص */}
+      <SectionTitle title="Active Bus Map" />
+      {/* <BusSelector /> */}
+      <BusMap />
+
+      {/* جدول مواعيد الباص */}
+      <SectionTitle title="Bus Schedule" />
+      {/* <BusSelector /> */}
+      <BusSchedule />
+
+      {/* الفوتر */}
+      <Footer />
+    </div>
+  );
+}
+</file>
+
+<file path="package.json">
+{
+  "name": "aman-tranportion",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev ",
+    "build": "next build ",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "leaflet": "^1.9.4",
+    "next": "15.5.2",
+    "postcss": "^8.5.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-leaflet": "^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.2",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="app/components/BusMap/BusMap.jsx">
+"use client";
+
+import dynamic from "next/dynamic";
+import { useState } from "react";
+import busesData from "../../data/buses.json"; // استدعاء البيانات المحلية
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+// dynamic imports حتى نتجنب خطأ window is not defined
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Popup = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Popup),
+  { ssr: false }
+);
+const Polyline = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Polyline),
+  { ssr: false }
+);
+
+export default function BusMap() {
+    const busLines = busesData.bus_lines;
+
+  const [selectedBusId, setSelectedBusId] = useState(busLines[0]?.id || null);
+
+  const busIcon = new L.Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/741/741411.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+  });
+
+  const stopIcon = new L.Icon({
+    iconUrl: "	https://cdn-icons-png.flaticon.com/512/3448/3448339.png",
+    iconSize: [20, 20],
+    iconAnchor: [10, 20],
+  });
+
+  const selectedBus = busLines.find((bus) => bus.id === selectedBusId);
+
+  return (
+    <div  style={{
+    width: "100%",
+    maxWidth: "1200px",   // عرض أقصى
+    margin: "0 auto",     // margin يمين ويسار أوتوماتيك
+    padding: "0 16px",    // padding داخلي
+  }}>
+      {/* أزرار لاختيار الباص */}
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+          marginBottom: "10px",
+          paddingTop: "10px",
+          justifyContent: "center",
+        }}
+      >
+        {busLines.map((bus) => (
+          <button
+            key={bus.id}
+            onClick={() => setSelectedBusId(bus.id)}
+            style={{
+              padding: "8px 12px",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              backgroundColor:
+                selectedBusId === bus.id ? "#0070f3" : "#f5f5f5",
+              color: selectedBusId === bus.id ? "#fff" : "#000",
+              cursor: "pointer",
+            }}
+          >
+            {bus.route_number} - {bus.name}
+          </button>
+        ))}
+      </div>
+
+      {/* الخريطة */}
+      <div style={{ height: "500px", width: "100%" }}>
+        {typeof window !== "undefined" && (
+          <MapContainer
+            center={[3.139, 101.6869]} // Kuala Lumpur center
+            zoom={12}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+            />
+
+            {selectedBus && (
+              <>
+                {/* موقع الباص */}
+                <Marker
+                  position={[
+                    selectedBus.current_location.latitude,
+                    selectedBus.current_location.longitude,
+                  ]}
+                  icon={busIcon}
+                >
+                  <Popup>
+                    <div
+                      style={{
+                        background: "#ffdddd",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        border: "2px solid red",
+                        minWidth: "200px",
+                        textAlign: "left",
+                      }}
+                    >
+                      <h4
+                        style={{
+                          margin: "0 0 8px 0",
+                          color: "#b30000",
+                          fontSize: "16px",
+                        }}
+                      >
+                        {selectedBus.name}
+                      </h4>
+                      <p style={{ margin: "4px 0" }}>
+                        <b>Status:</b> {selectedBus.status}
+                      </p>
+                      <p style={{ margin: "4px 0" }}>
+                        <b>Capacity:</b>{" "}
+                        {selectedBus.passengers.utilization_percentage}%
+                      </p>
+                      <p style={{ margin: "4px 0" }}>
+                        <b>Next Stop:</b>{" "}
+                        {selectedBus.bus_stops.find((s) => s.is_next_stop)?.name ||
+                          "N/A"}
+                      </p>
+                    </div>
+                  </Popup>
+                </Marker>
+                {selectedBus.bus_stops.map((stop) => (
+                  <Marker
+                    key={stop.id}
+                    position={[stop.latitude, stop.longitude]}
+                    icon={stopIcon}
+                  >
+                    <Popup>
+                      <div
+                        style={{
+                          background: "#eef6ff",
+                          padding: "8px",
+                          borderRadius: "6px",
+                          border: "1px solid #0070f3",
+                          minWidth: "180px",
+                          textAlign: "left",
+                        }}
+                      >
+                        <h4
+                          style={{
+                            margin: "0 0 6px 0",
+                            color: "#004080",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {stop.name}
+                        </h4>
+                        <p style={{ margin: "4px 0" }}>
+                          <b>Next Bus Arrival:</b> {stop.estimated_arrival}
+                        </p>
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+
+                {/* خط المسار */}
+                <Polyline
+                  positions={selectedBus.bus_stops.map((s) => [
+                    s.latitude,
+                    s.longitude,
+                  ])}
+                  color="blue"
+                />
+              </>
+            )}
+          </MapContainer>
+        )}
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="app/components/BusSchedule/BusSchedule.jsx">
+"use client";
+
+import { useState } from "react";
+import busesData from "../../data/buses.json"; // local data
+import "./BusSchedule.css";
+
+export default function BusSchedule() {
+  const busLines = busesData.bus_lines;
+  const [selectedBusId, setSelectedBusId] = useState(busLines[0]?.id || null);
+
+  const selectedBus = busLines.find((bus) => bus.id === selectedBusId);
+
+  return (
+    <div  style={{
+    width: "100%",
+    maxWidth: "1200px",   // عرض أقصى
+    margin: "0 auto",     // margin يمين ويسار أوتوماتيك
+    padding: "0 16px",    // padding داخلي
+  }} className="bus-schedule-container">
+      {/* Bus buttons inside BusSchedule */}
+      <div className="bus-buttons">
+        {busLines.map((bus) => (
+          <button
+            key={bus.id}
+            onClick={() => setSelectedBusId(bus.id)}
+            className={selectedBusId === bus.id ? "active" : ""}
+          >
+            {bus.route_number} - {bus.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Schedule table */}
+      {selectedBus && (
+        <div className="bus-schedule">
+          <h3>Bus Stops for {selectedBus.name} ({selectedBus.route_number})</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Bus Stop</th>
+                <th>Next Time of Arrival</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedBus.bus_stops.map((stop) => (
+                <tr key={stop.id} className={stop.is_next_stop ? "highlight" : ""}>
+                  <td>{stop.name}</td>
+                  <td>{stop.estimated_arrival}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
 }
 </file>
 
