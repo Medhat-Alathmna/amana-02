@@ -72,9 +72,9 @@ export default function BusMap() {
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
-          />
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+/>
           {selectedBus && (
             <>
               <Marker
