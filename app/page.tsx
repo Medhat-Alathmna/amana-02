@@ -9,6 +9,8 @@ import MapLoader from "./components/MapLoader/MapLoader";
 
 export default function Home() {
   return (
+        <BusProvider> {/* Wrap components that need shared state */}
+
     <div className="App">
       {/* شريط التنقل */}
       <Navbar />
@@ -28,5 +30,6 @@ export default function Home() {
       {/* الفوتر */}
       <Footer />
     </div>
+    </BusProvider>
   );
 }

@@ -3,27 +3,36 @@
 import { useState } from "react";
 import busesData from "../../data/buses.json"; // local data
 import "./BusSchedule.css";
+import { useBusData } from "@/app/context/BusContext"; // Use the hook
+
 
 export default function BusSchedule() {
   const busLines = busesData.bus_lines;
-  const [selectedBusId, setSelectedBusId] = useState(busLines[0]?.id || null);
+  const [selectedBusId, setSelectedBusId] = useState(
+    busLines[0]?.id || null,
+  );
 
-  const selectedBus = busLines.find((bus) => bus.id === selectedBusId);
+  const { selectedBus } = useBusData(); // Get the selected bus from context
 
   return (
-    <div  style={{
-    width: "100%",
-    maxWidth: "1200px",   // عرض أقصى
-    margin: "0 auto",     // margin يمين ويسار أوتوماتيك
-    padding: "0 16px",    // padding داخلي
-  }} className="bus-schedule-container">
+    <div
+      style={{
+        width: '100%',
+        maxWidth: '1200px', // عرض أقصى
+        margin: '0 auto', // margin يمين ويسار أوتوماتيك
+        padding: '0 16px', // padding داخلي
+      }}
+      className="bus-schedule-container"
+    >
       {/* Bus buttons inside BusSchedule */}
       <div className="bus-buttons">
         {busLines.map((bus) => (
           <button
             key={bus.id}
             onClick={() => setSelectedBusId(bus.id)}
-            className={selectedBusId === bus.id ? "active" : ""}
+            className={
+              selectedBusId === bus.id ? 'active' : ''
+            }
           >
             {bus.route_number} - {bus.name}
           </button>
@@ -33,7 +42,10 @@ export default function BusSchedule() {
       {/* Schedule table */}
       {selectedBus && (
         <div className="bus-schedule">
-          <h3>Bus Stops for {selectedBus.name} ({selectedBus.route_number})</h3>
+          <h3>
+            Bus Stops for {selectedBus.name} (
+            {selectedBus.route_number})
+          </h3>
           <table>
             <thead>
               <tr>
@@ -43,7 +55,12 @@ export default function BusSchedule() {
             </thead>
             <tbody>
               {selectedBus.bus_stops.map((stop) => (
-                <tr key={stop.id} className={stop.is_next_stop ? "highlight" : ""}>
+                <tr
+                  key={stop.id}
+                  className={
+                    stop.is_next_stop ? 'highlight' : ''
+                  }
+                >
                   <td>{stop.name}</td>
                   <td>{stop.estimated_arrival}</td>
                 </tr>
